@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Karla";
+    src: url("./assets/fonts/static/Karla-Bold.ttf");
+    font-weight: 700;
+  }
+
+  @font-face {
+    font-family: "Karla";
+    src: url("./assets/fonts/static/Karla-Regular.ttf");
+    font-weight: 400;
+  }
+}
+
+/* span {
+  color: #d73c3c; red
+  color: #87a3a6; grey-light
+  color: #2b4246; grey-dark
+} */
