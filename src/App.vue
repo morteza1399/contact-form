@@ -18,26 +18,34 @@
           >Query Type <span class="text-[#0c7d69]">*</span></label
         >
         <div class="flex sm:flex-row flex-col justify-between">
-          <div
-            class="flex items-center grow p-3 my-2 mr-3 border border-[#87a3a6] rounded-lg"
-          >
+          <div :class="generalEnquiryClass">
+            <img
+              v-if="contact.query_type === 'General Enquiry'"
+              class="mr-2"
+              src="./assets/images/icon-radio-selected.svg"
+              alt="general-enquiry"
+            />
             <input
-              class="m-2 focus:outline-none"
+              v-else
+              class="mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer"
               type="radio"
               name="General Enquiry"
               id="General Enquiry"
               value="General Enquiry"
               v-model="contact.query_type"
             />
-            <span class="text-sm text-[#2b4246] peer-checked:bg-red-600">
-              General Enquiry
-            </span>
+            <span class="text-sm text-[#2b4246]"> General Enquiry </span>
           </div>
-          <div
-            class="flex items-center grow p-3 my-2 mr-3 border border-[#87a3a6] rounded-lg"
-          >
+          <div :class="supportRequestClass">
+            <img
+              v-if="contact.query_type === 'Support Request'"
+              class="mr-2"
+              src="./assets/images/icon-radio-selected.svg"
+              alt="general-enquiry"
+            />
             <input
-              class="m-2 focus:outline-none"
+              v-else
+              class="mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer"
               type="radio"
               name="Support Request"
               id="Support Request"
@@ -77,7 +85,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import AppInput from "./components/AppInput.vue";
 
 const contact = reactive({
@@ -88,6 +96,23 @@ const contact = reactive({
   message: "",
   contacted: false,
 });
+
+const baseClass = "flex items-center grow p-3 my-2 mr-3 border rounded-lg";
+const activeClass = "bg-[#dff1e7] border-[#0c7d69]";
+const inactiveClass = "bg-white border-[#87a3a6]";
+
+const generalEnquiryClass = computed(() =>
+  getClass(contact.query_type, "General Enquiry")
+);
+const supportRequestClass = computed(() =>
+  getClass(contact.query_type, "Support Request")
+);
+
+const getClass = (queryType, targetType) => {
+  return `${baseClass} ${
+    queryType === targetType ? activeClass : inactiveClass
+  }`;
+};
 
 const handleSubmit = () => {
   console.log("handleSubmit");
