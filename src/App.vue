@@ -1,25 +1,34 @@
 <template>
   <div class="bg-white md:w-6/12 w-11/12 mx-auto p-5 rounded-lg">
     <h1 class="text-2xl font-bold">Contact Us</h1>
+    <pre>{{ contact }}</pre>
     <form @submit.prevent="handleSubmit">
       <div class="flex lg:flex-row flex-col justify-between my-3">
         <AppInput label="First Name" type="text" v-model="contact.first_name" />
         <AppInput label="Last Name" type="text" v-model="contact.last_name" />
       </div>
       <div class="my-3">
-        <AppInput
-          label="Email Address"
-          type="email"
-          v-model="contact.email_address"
-        />
+        <AppInput label="Email Address" type="email" v-model="contact.email_address" />
       </div>
       <div class="my-3">
-        <label for="#" class="text-sm text-[#2b4246]"
-          >Query Type <span class="text-[#0c7d69]">*</span></label
-        >
+        <label for="#" class="text-sm text-[#2b4246]">
+          Query Type
+          <span class="text-[#0c7d69]">*</span>
+        </label>
         <div class="flex sm:flex-row flex-col justify-between">
           <div :class="generalEnquiryClass">
-            <img
+            <AppInput
+              type="radio"
+              label="General Enquiry"
+              name="QueryType"
+              value="General Enquiry"
+              v-model="contact.query_type"
+            >
+              <template #radio>
+                <div>radio</div>
+              </template>
+            </AppInput>
+            <!-- <img
               v-if="contact.query_type === 'General Enquiry'"
               class="mr-2"
               src="./assets/images/icon-radio-selected.svg"
@@ -34,10 +43,21 @@
               value="General Enquiry"
               v-model="contact.query_type"
             />
-            <span class="text-sm text-[#2b4246]"> General Enquiry </span>
+            <span class="text-sm text-[#2b4246]">General Enquiry</span>-->
           </div>
           <div :class="supportRequestClass">
-            <img
+            <AppInput
+              type="radio"
+              label="Support Request"
+              name="QueryType"
+              value="Support Request"
+              v-model="contact.query_type"
+            >
+              <template #radio>
+                <div>radio</div>
+              </template>
+            </AppInput>
+            <!-- <img
               v-if="contact.query_type === 'Support Request'"
               class="mr-2"
               src="./assets/images/icon-radio-selected.svg"
@@ -52,18 +72,12 @@
               value="Support Request"
               v-model="contact.query_type"
             />
-            <span class="text-sm text-[#2b4246]"> Support Request </span>
+            <span class="text-sm text-[#2b4246]">Support Request</span>-->
           </div>
         </div>
       </div>
       <div class="my-3">
-        <AppInput
-          label="Message"
-          type="textarea"
-          is-text-area
-          :rows="4"
-          v-model="contact.message"
-        />
+        <AppInput label="Message" type="textarea" is-text-area :rows="4" v-model="contact.message" />
       </div>
       <div class="my-3">
         <AppInput
@@ -72,7 +86,18 @@
         team"
           is-check-box
           v-model="contact.contacted"
-        />
+        >
+          <template #checkbox>
+            <div @click="toggleCheckBox">
+              <img
+                v-if="contact.contacted"
+                src="./assets/images/icon-checkbox-check.svg"
+                alt="checked"
+              />
+              <span v-else class="flex w-4 h-4 border border-[#87a3a6] bg-white"></span>
+            </div>
+          </template>
+        </AppInput>
       </div>
       <AppInput type="submit" />
     </form>
@@ -81,7 +106,7 @@
     Challenge by
     <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
     Coded by <a href="#">Morteza Abdollahi</a>.
-  </div> -->
+  </div>-->
 </template>
 
 <script setup>
@@ -94,7 +119,7 @@ const contact = reactive({
   email_address: "",
   query_type: "",
   message: "",
-  contacted: false,
+  contacted: false
 });
 
 const baseClass = "flex items-center grow p-3 my-2 mr-3 border rounded-lg";
@@ -112,6 +137,10 @@ const getClass = (queryType, targetType) => {
   return `${baseClass} ${
     queryType === targetType ? activeClass : inactiveClass
   }`;
+};
+
+const toggleCheckBox = () => {
+  contact.contacted = !contact.contacted;
 };
 
 const handleSubmit = () => {
