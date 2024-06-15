@@ -8,7 +8,11 @@
         <AppInput label="Last Name" type="text" v-model="contact.last_name" />
       </div>
       <div class="my-3">
-        <AppInput label="Email Address" type="email" v-model="contact.email_address" />
+        <AppInput
+          label="Email Address"
+          type="email"
+          v-model="contact.email_address"
+        />
       </div>
       <div class="my-3">
         <label for="#" class="text-sm text-[#2b4246]">
@@ -25,25 +29,15 @@
               v-model="contact.query_type"
             >
               <template #radio>
-                <div>radio</div>
+                <div>
+                  <img
+                    v-show="contact.query_type === 'General Enquiry'"
+                    src="./assets/images/icon-radio-selected.svg"
+                    alt="selected"
+                  />
+                </div>
               </template>
             </AppInput>
-            <!-- <img
-              v-if="contact.query_type === 'General Enquiry'"
-              class="mr-2"
-              src="./assets/images/icon-radio-selected.svg"
-              alt="general-enquiry"
-            />
-            <input
-              v-else
-              class="mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer"
-              type="radio"
-              name="General Enquiry"
-              id="General Enquiry"
-              value="General Enquiry"
-              v-model="contact.query_type"
-            />
-            <span class="text-sm text-[#2b4246]">General Enquiry</span>-->
           </div>
           <div :class="supportRequestClass">
             <AppInput
@@ -54,30 +48,26 @@
               v-model="contact.query_type"
             >
               <template #radio>
-                <div>radio</div>
+                <div>
+                  <img
+                    v-show="contact.query_type === 'Support Request'"
+                    src="./assets/images/icon-radio-selected.svg"
+                    alt="selected"
+                  />
+                </div>
               </template>
             </AppInput>
-            <!-- <img
-              v-if="contact.query_type === 'Support Request'"
-              class="mr-2"
-              src="./assets/images/icon-radio-selected.svg"
-              alt="general-enquiry"
-            />
-            <input
-              v-else
-              class="mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer"
-              type="radio"
-              name="Support Request"
-              id="Support Request"
-              value="Support Request"
-              v-model="contact.query_type"
-            />
-            <span class="text-sm text-[#2b4246]">Support Request</span>-->
           </div>
         </div>
       </div>
       <div class="my-3">
-        <AppInput label="Message" type="textarea" is-text-area :rows="4" v-model="contact.message" />
+        <AppInput
+          label="Message"
+          type="textarea"
+          is-text-area
+          :rows="4"
+          v-model="contact.message"
+        />
       </div>
       <div class="my-3">
         <AppInput
@@ -94,7 +84,10 @@
                 src="./assets/images/icon-checkbox-check.svg"
                 alt="checked"
               />
-              <span v-else class="flex w-4 h-4 border border-[#87a3a6] bg-white"></span>
+              <span
+                v-else
+                class="flex w-4 h-4 border border-[#87a3a6] bg-white"
+              ></span>
             </div>
           </template>
         </AppInput>
@@ -119,7 +112,7 @@ const contact = reactive({
   email_address: "",
   query_type: "",
   message: "",
-  contacted: false
+  contacted: false,
 });
 
 const baseClass = "flex items-center grow p-3 my-2 mr-3 border rounded-lg";
