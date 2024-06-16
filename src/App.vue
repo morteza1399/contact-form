@@ -74,18 +74,7 @@
         team"
           is-check-box
           v-model="contact.contacted"
-        >
-          <template #checkbox>
-            <div @click="toggleCheckBox">
-              <img
-                v-if="contact.contacted"
-                src="./assets/images/icon-checkbox-check.svg"
-                alt="checked"
-              />
-              <span v-else class="flex w-4 h-4 border border-[#87a3a6] bg-white"></span>
-            </div>
-          </template>
-        </AppInput>
+        />
       </div>
       <AppInput type="submit" />
     </form>

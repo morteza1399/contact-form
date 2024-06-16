@@ -4,7 +4,6 @@
       {{ label }}
       <span v-show="isRequired && type !== 'radio'" class="text-[#0c7d69]">*</span>
     </label>
-    <slot v-if="isCheckBox" name="checkbox"></slot>
     <input
       autocomplete="off"
       :type="type"
@@ -62,10 +61,16 @@ const computedLabelClass = computed(() => {
 
 const computedInputClass = computed(() => {
   const baseClasses =
-    "p-3 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69]";
+    "p-2 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69]";
   const submitClasses =
     props.type === "submit" ? "bg-[#0c7d69] text-white cursor-pointer" : "";
-  const checkboxClasses = hasCheckBox.value ? "hidden" : "";
+  const checkboxClasses = hasCheckBox.value
+    ? `appearance-none rounded-none cursor-pointer border ${
+        props.modelValue
+          ? 'border-[#0c7d69] bg-[url("./assets/images/icon-checkbox-check.svg")] bg-center bg-no-repeat'
+          : "border-[#87a3a6] bg-white w-4 h-4 "
+      }`
+    : "";
   const radioClass =
     "mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer hidden";
   if (props.type === "radio") {
