@@ -66,29 +66,39 @@ const computedLabelClass = computed(() => {
   }`;
 });
 
-const computedInputClass = computed(() => {
-  const baseClasses =
-    "p-2 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69]";
-  const submitClasses =
-    props.type === "submit" ? "bg-[#0c7d69] text-white cursor-pointer" : "";
-  const checkboxClasses = props.isCheckBox
-    ? `appearance-none rounded-none cursor-pointer border ${
-        props.modelValue
-          ? 'border-[#0c7d69] bg-[url("./assets/images/icon-checkbox-check.svg")] bg-center bg-no-repeat'
-          : "border-[#87a3a6] bg-white w-4 h-4 "
-      }`
-    : "";
+const baseClasses =
+  "p-2 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69]";
+const submitClasses = "bg-[#0c7d69] text-white cursor-pointer";
+const checkboxUncheckedClasses = "border-[#87a3a6] bg-white w-4 h-4";
+const checkboxCheckedClasses =
+  'border-[#0c7d69] bg-[url("./assets/images/icon-checkbox-check.svg")] bg-center bg-no-repeat';
 
-  return `${baseClasses} ${submitClasses} ${checkboxClasses}`;
+const computedInputClass = computed(() => {
+  let classes = baseClasses;
+
+  if (props.type === "submit") {
+    classes += ` ${submitClasses}`;
+  }
+
+  if (props.isCheckBox) {
+    classes += ` appearance-none rounded-none cursor-pointer border ${
+      props.modelValue ? checkboxCheckedClasses : checkboxUncheckedClasses
+    }`;
+  }
+
+  return classes;
 });
+
+const baseRadioClasses =
+  "appearance-none w-5 h-5 bg-white border border-[#87a3a6] rounded-full m-0 cursor-pointer";
+const selectedRadioClasses =
+  'bg-[url("./assets/images/icon-radio-selected.svg")] bg-center bg-no-repeat';
 
 const computedRadioClass = computed(() => {
-  return `appearance-none w-5 h-5 bg-white border border-[#87a3a6] rounded-full m-0 cursor-pointer ${
-    props.modelValue === props.value
-      ? 'bg-[url("./assets/images/icon-radio-selected.svg")] bg-center bg-no-repeat'
-      : ""
-  }`;
+  const isSelected = props.modelValue === props.value;
+  return `${baseRadioClasses} ${isSelected ? selectedRadioClasses : ""}`;
 });
+
 
 const computedId = computed(() => {
   return isNotRadioButton.value
