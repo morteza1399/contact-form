@@ -2,15 +2,15 @@
   <div :class="computedParentClass">
     <label :for="computedId" :class="computedLabelClass">
       {{ label }}
-      <span v-show="isRequired && type !== 'radio'" class="text-[#0c7d69]">*</span>
+      <span v-show="isRequired && isNotRadioButton" class="text-[#0c7d69]">*</span>
     </label>
     <input
       autocomplete="off"
       :type="type"
       :name="name"
       :id="computedId"
-      :class="type === 'radio' ? computedRadioClass : computedInputClass"
-      :value="isRequired ? (type === 'radio' ? value : modelValue) : 'submit'"
+      :class="isRadioButton ? computedRadioClass : computedInputClass"
+      :value="isRequired ? (isRadioButton ? value : modelValue) : 'submit'"
       @input="updateValue($event.target.value)"
     />
   </div>
@@ -40,21 +40,27 @@ const isRequired = computed(() => {
   return props.type !== "submit";
 });
 
-const hasCheckBox = computed(() => {
-  return props.type === "checkbox";
+const isRadioButton = computed(() => {
+  return props.type === "radio";
+});
+
+const isNotRadioButton = computed(() => {
+  return props.type !== "radio";
+});
+
+const checkboxOrRadio = computed(() => {
+  return props.isCheckBox || isRadioButton.value;
 });
 
 const computedParentClass = computed(() => {
   return `flex ${
-    props.isCheckBox || props.type === "radio" ? "items-center" : "flex-col"
+    checkboxOrRadio.value ? "items-center" : "flex-col"
   } grow mr-3 text-[#2b4246]`;
 });
 
 const computedLabelClass = computed(() => {
   return `text-sm ${
-    props.isCheckBox || props.type === "radio"
-      ? "order-last ml-3 "
-      : "order-first"
+    checkboxOrRadio.value ? "order-last ml-3 " : "order-first"
   }`;
 });
 
@@ -63,7 +69,7 @@ const computedInputClass = computed(() => {
     "p-2 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69]";
   const submitClasses =
     props.type === "submit" ? "bg-[#0c7d69] text-white cursor-pointer" : "";
-  const checkboxClasses = hasCheckBox.value
+  const checkboxClasses = props.isCheckBox
     ? `appearance-none rounded-none cursor-pointer border ${
         props.modelValue
           ? 'border-[#0c7d69] bg-[url("./assets/images/icon-checkbox-check.svg")] bg-center bg-no-repeat'
@@ -83,12 +89,12 @@ const computedRadioClass = computed(() => {
 });
 
 const computedId = computed(() => {
-  return props.type !== "radio"
+  return isNotRadioButton.value
     ? `Input-${props.label?.replace(/\s+/g, "-")}`
     : `${props.label}`;
 });
 
 const updateValue = value => {
-  emits("update:modelValue", hasCheckBox.value ? !props.modelValue : value);
+  emits("update:modelValue", props.isCheckBox ? !props.modelValue : value);
 };
 </script>

@@ -88,10 +88,6 @@ const getClass = (queryType, targetType) => {
   }`;
 };
 
-const toggleCheckBox = () => {
-  contact.contacted = !contact.contacted;
-};
-
 const handleSubmit = () => {
   console.log("handleSubmit");
   console.log(contact);
