@@ -2,9 +2,7 @@
   <div :class="computedParentClass">
     <label :for="computedId" :class="computedLabelClass">
       {{ label }}
-      <span v-show="isRequired && type !== 'radio'" class="text-[#0c7d69]"
-        >*</span
-      >
+      <span v-show="isRequired && type !== 'radio'" class="text-[#0c7d69]">*</span>
     </label>
     <slot v-if="isCheckBox" name="checkbox"></slot>
     <input
@@ -38,21 +36,21 @@ const props = defineProps({
   label: String,
   type: {
     type: String,
-    required: true,
+    required: true
   },
   isCheckBox: {
     type: Boolean,
-    default: false,
+    default: false
   },
   isTextArea: {
     type: Boolean,
-    default: false,
+    default: false
   },
   rows: Number,
   cols: Number,
   modelValue: [String, Boolean],
   value: [String, Boolean],
-  name: String,
+  name: String
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -86,24 +84,13 @@ const computedInputClass = computed(() => {
     props.type === "submit" ? "bg-[#0c7d69] text-white cursor-pointer" : "";
   const checkboxClasses = hasCheckBox.value ? "hidden" : "";
   const radioClass =
-    "mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer";
+    "mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer hidden";
   if (props.type === "radio") {
     return `${radioClass}`;
   }
 
   return `${baseClasses} ${submitClasses} ${checkboxClasses}`;
 });
-
-// const computedRadioClass = computed(() => {
-//   if (
-//     props.modelValue !== "General Enquiry" &&
-//     props.modelValue !== "Support Request"
-//   ) {
-//     return "mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer";
-//   } else {
-//     return "hidden";
-//   }
-// });
 
 const computedId = computed(() => {
   return props.type === "textarea"
@@ -113,7 +100,7 @@ const computedId = computed(() => {
     : `${props.label}`;
 });
 
-const updateValue = (value) => {
+const updateValue = value => {
   emits("update:modelValue", hasCheckBox.value ? !props.modelValue : value);
 };
 </script>
