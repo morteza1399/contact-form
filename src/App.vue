@@ -61,6 +61,7 @@
 import { reactive, computed } from "vue";
 import AppInput from "./components/AppInput.vue";
 import AppTextArea from "./components/AppTextArea.vue";
+import { createToast } from "./utils/toast/index";
 
 const contact = reactive({
   first_name: "",
@@ -89,7 +90,12 @@ const getClass = (queryType, targetType) => {
 };
 
 const handleSubmit = () => {
-  console.log("handleSubmit");
-  console.log(contact);
+  createToast("morteza", {
+    theme: "colored",
+    type: "success",
+    position: "top-center",
+    progress: "0",
+    dangerouslyHTMLString: true
+  });
 };
 </script>
