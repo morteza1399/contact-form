@@ -2,7 +2,9 @@
   <div :class="computedParentClass">
     <label :for="computedId" :class="computedLabelClass">
       {{ label }}
-      <span v-show="isRequired && isNotRadioButton" class="text-[#0c7d69]">*</span>
+      <span v-show="isRequired && isNotRadioButton" class="text-[#0c7d69]"
+        >*</span
+      >
     </label>
     <input
       autocomplete="off"
@@ -23,15 +25,15 @@ const props = defineProps({
   label: String,
   type: {
     type: String,
-    required: true
+    required: true,
   },
   isCheckBox: {
     type: Boolean,
-    default: false
+    default: false,
   },
   modelValue: [String, Boolean],
   value: [String, Boolean],
-  name: String
+  name: String,
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -55,7 +57,7 @@ const checkboxOrRadio = computed(() => {
 const computedParentClass = computed(() => {
   return `flex ${
     checkboxOrRadio.value ? "items-center" : "flex-col"
-  } grow mr-3 text-[#2b4246]`;
+  } grow mx-2`;
 });
 
 const computedLabelClass = computed(() => {
@@ -94,7 +96,7 @@ const computedId = computed(() => {
     : `${props.label}`;
 });
 
-const updateValue = value => {
+const updateValue = (value) => {
   emits("update:modelValue", props.isCheckBox ? !props.modelValue : value);
 };
 </script>

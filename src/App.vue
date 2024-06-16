@@ -1,16 +1,20 @@
 <template>
-  <div class="bg-white md:w-6/12 w-11/12 mx-auto p-5 rounded-lg">
-    <h1 class="text-2xl font-bold">Contact Us</h1>
+  <div class="bg-white md:w-5/12 w-11/12 mx-auto p-5 rounded-xl text-[#2b4246]">
+    <h1 class="text-2xl font-bold mx-2">Contact Us</h1>
     <form @submit.prevent="handleSubmit">
       <div class="flex lg:flex-row flex-col justify-between my-3">
         <AppInput label="First Name" type="text" v-model="contact.first_name" />
         <AppInput label="Last Name" type="text" v-model="contact.last_name" />
       </div>
       <div class="my-3">
-        <AppInput label="Email Address" type="email" v-model="contact.email_address" />
+        <AppInput
+          label="Email Address"
+          type="email"
+          v-model="contact.email_address"
+        />
       </div>
       <div class="my-3">
-        <label for="#" class="text-sm text-[#2b4246]">
+        <label for="#" class="text-sm mx-2">
           Query Type
           <span class="text-[#0c7d69]">*</span>
         </label>
@@ -69,10 +73,10 @@ const contact = reactive({
   email_address: "",
   query_type: "",
   message: "",
-  contacted: false
+  contacted: false,
 });
 
-const baseClass = "flex items-center grow p-3 my-2 mr-3 border rounded-lg";
+const baseClass = "flex items-center grow p-3 m-2 border rounded-lg";
 const activeClass = "bg-[#dff1e7] border-[#0c7d69]";
 const inactiveClass = "bg-white border-[#87a3a6]";
 
@@ -90,12 +94,22 @@ const getClass = (queryType, targetType) => {
 };
 
 const handleSubmit = () => {
-  createToast("morteza", {
-    theme: "colored",
-    type: "success",
-    position: "top-center",
-    progress: "0",
-    dangerouslyHTMLString: true
-  });
+  createToast(
+    `<div class="flex items-center"><img class="w-4 h-4 mr-2" src="../src/assets/images/icon-success-check.svg" alt="checked"/> <strong class="text-sm">Message Sent!</strong></div><div><small class="text-[11px] text-[#87a3a6]">Thanks for completing the form. We'll be in touch soon!</small></div>`,
+    {
+      theme: "colored",
+      type: "success",
+      position: "top-center",
+      progress: 0,
+      dangerouslyHTMLString: true,
+      closeButton: false,
+      icon: false,
+      toastStyle: {
+        backgroundColor: "#2b4246",
+        padding: "15px",
+        borderRadius: "10px",
+      },
+    }
+  );
 };
 </script>

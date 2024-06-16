@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col grow mr-3 text-[#2b4246]">
+  <div class="flex flex-col mx-2 grow">
     <label :for="`Textarea-${label}`" class="text-sm">
       {{ label }}
       <span class="text-[#0c7d69]">*</span>
@@ -24,13 +24,13 @@ const props = defineProps({
   name: String,
   label: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const emits = defineEmits(["update:modelValue"]);
 
-const updateValue = value => {
+const updateValue = (value) => {
   emits("update:modelValue", value);
 };
 </script>
