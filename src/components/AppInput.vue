@@ -9,11 +9,10 @@
       :type="type"
       :name="name"
       :id="computedId"
-      :class="computedInputClass"
+      :class="type === 'radio' ? computedRadioClass : computedInputClass"
       :value="isRequired ? (type === 'radio' ? value : modelValue) : 'submit'"
       @input="updateValue($event.target.value)"
     />
-    <slot name="radio"></slot>
   </div>
 </template>
 
@@ -71,13 +70,16 @@ const computedInputClass = computed(() => {
           : "border-[#87a3a6] bg-white w-4 h-4 "
       }`
     : "";
-  const radioClass =
-    "mr-2 focus:outline-none appearance-none bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer hidden";
-  if (props.type === "radio") {
-    return `${radioClass}`;
-  }
 
   return `${baseClasses} ${submitClasses} ${checkboxClasses}`;
+});
+
+const computedRadioClass = computed(() => {
+  return `appearance-none w-5 h-5 bg-white border border-[#87a3a6] rounded-full m-0 cursor-pointer ${
+    props.modelValue === props.value
+      ? 'bg-[url("./assets/images/icon-radio-selected.svg")] bg-center bg-no-repeat'
+      : ""
+  }`;
 });
 
 const computedId = computed(() => {

@@ -1,7 +1,6 @@
 <template>
   <div class="bg-white md:w-6/12 w-11/12 mx-auto p-5 rounded-lg">
     <h1 class="text-2xl font-bold">Contact Us</h1>
-    <pre>{{ contact }}</pre>
     <form @submit.prevent="handleSubmit">
       <div class="flex lg:flex-row flex-col justify-between my-3">
         <AppInput label="First Name" type="text" v-model="contact.first_name" />
@@ -23,21 +22,7 @@
               name="QueryType"
               value="General Enquiry"
               v-model="contact.query_type"
-            >
-              <template #radio>
-                <div class="flex" @click="contact.query_type = 'General Enquiry'">
-                  <img
-                    v-if="contact.query_type === 'General Enquiry'"
-                    src="./assets/images/icon-radio-selected.svg"
-                    alt="selected"
-                  />
-                  <span
-                    v-else
-                    class="bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer"
-                  ></span>
-                </div>
-              </template>
-            </AppInput>
+            />
           </div>
           <div :class="supportRequestClass">
             <AppInput
@@ -46,21 +31,7 @@
               name="QueryType"
               value="Support Request"
               v-model="contact.query_type"
-            >
-              <template #radio>
-                <div class="flex" @click="contact.query_type = 'Support Request'">
-                  <img
-                    v-if="contact.query_type === 'Support Request'"
-                    src="./assets/images/icon-radio-selected.svg"
-                    alt="selected"
-                  />
-                  <span
-                    v-else
-                    class="bg-white w-5 h-5 rounded-full border border-[#87a3a6] cursor-pointer"
-                  ></span>
-                </div>
-              </template>
-            </AppInput>
+            />
           </div>
         </div>
       </div>
