@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="my-3">
-        <AppInput label="Message" type="textarea" is-text-area :rows="4" v-model="contact.message" />
+        <AppTextArea label="Message" v-model="contact.message" />
       </div>
       <div class="my-3">
         <AppInput
@@ -100,6 +100,7 @@
 <script setup>
 import { reactive, computed } from "vue";
 import AppInput from "./components/AppInput.vue";
+import AppTextArea from "./components/AppTextArea.vue";
 
 const contact = reactive({
   first_name: "",

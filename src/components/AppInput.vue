@@ -15,17 +15,6 @@
       @input="updateValue($event.target.value)"
     />
     <slot name="radio"></slot>
-
-    <!-- <textarea
-      v-if="isTextArea"
-      :name="name"
-      :id="computedId"
-      :rows="rows"
-      :cols="cols"
-      :class="computedInputClass"
-      :value="modelValue"
-      @input="updateValue($event.target.value)"
-    ></textarea>-->
   </div>
 </template>
 
@@ -42,12 +31,6 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  isTextArea: {
-    type: Boolean,
-    default: false
-  },
-  rows: Number,
-  cols: Number,
   modelValue: [String, Boolean],
   value: [String, Boolean],
   name: String
@@ -93,9 +76,7 @@ const computedInputClass = computed(() => {
 });
 
 const computedId = computed(() => {
-  return props.type === "textarea"
-    ? `Textarea-${props.label}`
-    : props.type !== "radio"
+  return props.type !== "radio"
     ? `Input-${props.label?.replace(/\s+/g, "-")}`
     : `${props.label}`;
 });
