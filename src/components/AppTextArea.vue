@@ -9,7 +9,7 @@
       :id="`Textarea-${label}`"
       :rows="rows"
       :cols="cols"
-      class="p-3 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69]"
+      class="p-3 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69] hover:border-[#0c7d69]"
       :value="modelValue"
       @input="updateValue($event.target.value)"
     ></textarea>

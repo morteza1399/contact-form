@@ -62,13 +62,14 @@ const computedParentClass = computed(() => {
 
 const computedLabelClass = computed(() => {
   return `text-sm ${
-    checkboxOrRadio.value ? "order-last ml-3 " : "order-first"
+    checkboxOrRadio.value ? "order-last ml-3 hover:text-black" : "order-first"
   }`;
 });
 
 const BASE_CLASSES =
-  "p-2 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69]";
-const SUBMIT_CLASSES = "bg-[#0c7d69] text-white cursor-pointer";
+  "p-2 my-2 border border-[#87a3a6] rounded resize-none focus:outline-none focus:border-[#0c7d69] hover:border-[#0c7d69]";
+const SUBMIT_CLASSES =
+  "bg-[#0c7d69] text-white cursor-pointer hover:bg-[#2b4246]";
 const CHECKBOX_UNCHECKED_CLASSES = "border-[#87a3a6] bg-white w-4 h-4";
 const CHECKBOX_CHECKED_CLASSES =
   'border-[#0c7d69] bg-[url("./assets/images/icon-checkbox-check.svg")] bg-center bg-no-repeat';
