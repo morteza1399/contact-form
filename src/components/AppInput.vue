@@ -15,7 +15,16 @@
       :value="isRequired ? (isRadioButton ? value : modelValue) : 'submit'"
       @input="updateValue($event.target.value)"
     />
-    <small v-if="error" class="text-[#d73c3c]">{{ error }}</small>
+    <div>
+      <small
+        v-show="error && !props.isCheckBox"
+        class="text-[#d73c3c] text-[12px]"
+        >{{ error }}</small
+      >
+    </div>
+  </div>
+  <div v-show="error && props.isCheckBox" class="ml-2 text-[#d73c3c] text-base">
+    <small>{{ error }}</small>
   </div>
 </template>
 
@@ -75,14 +84,15 @@ const computedLabelClass = computed(() => {
 });
 
 const BASE_CLASSES =
-  "p-2 my-2 border border-[#87a3a6] rounded resize-none focus:outline-none focus:border-[#0c7d69] hover:border-[#0c7d69]";
+  "p-2 my-2 border rounded resize-none focus:outline-none focus:border-[#0c7d69] hover:border-[#0c7d69]";
 const SUBMIT_CLASSES =
   "bg-[#0c7d69] border-none text-white cursor-pointer hover:bg-[#2b4246]";
 const CHECKBOX_UNCHECKED_CLASSES = "border-[#87a3a6] bg-white w-4 h-4";
 const CHECKBOX_CHECKED_CLASSES =
   'border-[#0c7d69] bg-[url("./assets/images/icon-checkbox-check.svg")] bg-center bg-no-repeat';
 
-// const ERROR_CLASSES = "border-[#d73c3c]";
+const ERROR_CLASSES =
+  "border-[#d73c3c] focus:border-[#d73c3c] hover:border-[#d73c3c]";
 
 const computedInputClass = computed(() => {
   let classes = BASE_CLASSES;
@@ -95,6 +105,12 @@ const computedInputClass = computed(() => {
     classes += ` appearance-none rounded-none cursor-pointer border ${
       props.modelValue ? CHECKBOX_CHECKED_CLASSES : CHECKBOX_UNCHECKED_CLASSES
     }`;
+  }
+
+  if (error.value && !props.isCheckBox) {
+    classes += ` ${ERROR_CLASSES}`;
+  } else {
+    classes += " border-[#87a3a6]";
   }
 
   return classes;

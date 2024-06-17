@@ -20,7 +20,7 @@ export function useValidate() {
   };
 
   const queryType = (value) => {
-    return value ? null : "Please select a query type";
+    return value === "General Enquiry" ? "Please select a query type" : null;
   };
 
   const email = (value) => {

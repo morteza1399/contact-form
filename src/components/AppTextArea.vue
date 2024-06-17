@@ -13,7 +13,7 @@
       :value="modelValue"
       @input="updateValue($event.target.value)"
     ></textarea>
-    <small v-if="error" class="text-[#d73c3c]">{{ error }}</small>
+    <small v-if="error" class="text-[#d73c3c] text[12px]">{{ error }}</small>
   </div>
 </template>
 
