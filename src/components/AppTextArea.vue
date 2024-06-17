@@ -9,7 +9,7 @@
       :id="`Textarea-${label}`"
       :rows="rows"
       :cols="cols"
-      class="p-3 my-2 border border-[#87a3a6] rounded-lg resize-none focus:outline-none focus:border-[#0c7d69] hover:border-[#0c7d69]"
+      :class="computedTextAreaClasses"
       :value="modelValue"
       @input="updateValue($event.target.value)"
     ></textarea>
@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { watch } from "vue";
+import { computed, watch } from "vue";
 import { useValidate } from "../composables/validate";
 
 const { error, validateInput } = useValidate();
@@ -36,6 +36,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+});
+
+const computedTextAreaClasses = computed(() => {
+  return `p-3 my-2 border rounded-lg resize-none focus:outline-none focus:border-[#0c7d69] hover:border-[#0c7d69] ${
+    error.value
+      ? "border-[#d73c3c] focus:border-[#d73c3c] hover:border-[#d73c3c]"
+      : "border-[#87a3a6]"
+  }`;
 });
 
 const emits = defineEmits(["update:modelValue"]);
