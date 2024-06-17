@@ -83,10 +83,11 @@
 import { reactive, computed } from "vue";
 import AppInput from "./components/AppInput.vue";
 import AppTextArea from "./components/AppTextArea.vue";
-import { createToast } from "./utils/toast/index";
+import { useToast } from "./composables/toast";
 import { useValidate } from "./composables/validate";
 
 const { required, email, queryType, checked } = useValidate();
+const { createToast } = useToast();
 
 const contact = reactive({
   first_name: "",
