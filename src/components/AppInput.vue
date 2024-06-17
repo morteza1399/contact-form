@@ -15,11 +15,15 @@
       :value="isRequired ? (isRadioButton ? value : modelValue) : 'submit'"
       @input="updateValue($event.target.value)"
     />
+    <small v-if="error" class="text-[#d73c3c]">{{ error }}</small>
   </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, watch } from "vue";
+import { useValidate } from "../composables/validate";
+
+const { error, validateInput } = useValidate();
 
 const props = defineProps({
   label: String,
@@ -34,6 +38,10 @@ const props = defineProps({
   modelValue: [String, Boolean],
   value: [String, Boolean],
   name: String,
+  rules: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -69,10 +77,12 @@ const computedLabelClass = computed(() => {
 const BASE_CLASSES =
   "p-2 my-2 border border-[#87a3a6] rounded resize-none focus:outline-none focus:border-[#0c7d69] hover:border-[#0c7d69]";
 const SUBMIT_CLASSES =
-  "bg-[#0c7d69] text-white cursor-pointer hover:bg-[#2b4246]";
+  "bg-[#0c7d69] border-none text-white cursor-pointer hover:bg-[#2b4246]";
 const CHECKBOX_UNCHECKED_CLASSES = "border-[#87a3a6] bg-white w-4 h-4";
 const CHECKBOX_CHECKED_CLASSES =
   'border-[#0c7d69] bg-[url("./assets/images/icon-checkbox-check.svg")] bg-center bg-no-repeat';
+
+// const ERROR_CLASSES = "border-[#d73c3c]";
 
 const computedInputClass = computed(() => {
   let classes = BASE_CLASSES;
@@ -108,5 +118,11 @@ const computedId = computed(() => {
 
 const updateValue = (value) => {
   emits("update:modelValue", props.isCheckBox ? !props.modelValue : value);
+  validateInput(props.rules, props.modelValue);
 };
+
+watch(
+  () => props.modelValue,
+  () => validateInput(props.rules, props.modelValue)
+);
 </script>

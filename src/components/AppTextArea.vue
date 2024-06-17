@@ -13,10 +13,16 @@
       :value="modelValue"
       @input="updateValue($event.target.value)"
     ></textarea>
+    <small v-if="error" class="text-[#d73c3c]">{{ error }}</small>
   </div>
 </template>
 
 <script setup>
+import { watch } from "vue";
+import { useValidate } from "../composables/validate";
+
+const { error, validateInput } = useValidate();
+
 const props = defineProps({
   modelValue: String,
   rows: Number,
@@ -26,11 +32,21 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  rules: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const emits = defineEmits(["update:modelValue"]);
 
 const updateValue = (value) => {
   emits("update:modelValue", value);
+  validateInput(props.rules, props.modelValue);
 };
+
+watch(
+  () => props.modelValue,
+  () => validateInput(props.rules, props.modelValue)
+);
 </script>

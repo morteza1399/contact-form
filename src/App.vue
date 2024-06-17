@@ -3,14 +3,25 @@
     <h1 class="text-2xl font-bold mx-2">Contact Us</h1>
     <form @submit.prevent="handleSubmit">
       <div class="flex lg:flex-row flex-col justify-between my-3">
-        <AppInput label="First Name" type="text" v-model="contact.first_name" />
-        <AppInput label="Last Name" type="text" v-model="contact.last_name" />
+        <AppInput
+          label="First Name"
+          type="text"
+          v-model="contact.first_name"
+          :rules="[required]"
+        />
+        <AppInput
+          label="Last Name"
+          type="text"
+          v-model="contact.last_name"
+          :rules="[required]"
+        />
       </div>
       <div class="my-3">
         <AppInput
           label="Email Address"
           type="email"
           v-model="contact.email_address"
+          :rules="[required, email]"
         />
       </div>
       <div class="my-3">
@@ -26,6 +37,7 @@
               name="QueryType"
               value="General Enquiry"
               v-model="contact.query_type"
+              :rules="[queryType]"
             />
           </div>
           <div :class="supportRequestClass">
@@ -35,12 +47,17 @@
               name="QueryType"
               value="Support Request"
               v-model="contact.query_type"
+              :rules="[queryType]"
             />
           </div>
         </div>
       </div>
       <div class="my-3">
-        <AppTextArea label="Message" v-model="contact.message" />
+        <AppTextArea
+          label="Message"
+          v-model="contact.message"
+          :rules="[required]"
+        />
       </div>
       <div class="my-3">
         <AppInput
@@ -49,6 +66,7 @@
         team"
           is-check-box
           v-model="contact.contacted"
+          :rules="[checked]"
         />
       </div>
       <AppInput type="submit" />
@@ -66,6 +84,9 @@ import { reactive, computed } from "vue";
 import AppInput from "./components/AppInput.vue";
 import AppTextArea from "./components/AppTextArea.vue";
 import { createToast } from "./utils/toast/index";
+import { useValidate } from "./composables/validate";
+
+const { required, email, queryType, checked } = useValidate();
 
 const contact = reactive({
   first_name: "",
