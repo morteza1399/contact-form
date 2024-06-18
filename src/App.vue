@@ -102,24 +102,34 @@ const getClass = (queryType, targetType) => {
 };
 
 const handleSubmit = () => {
-  console.log(contact, "contact");
-  createToast(
-    `<div class="flex items-center"><img class="w-4 h-4 mr-2" src="../src/assets/images/icon-success-check.svg" alt="checked"/> <strong class="text-sm">Message Sent!</strong></div><div><small class="text-[10px] text-[#87a3a6] leading-none">Thanks for completing the form. We'll be in touch soon!</small></div>`,
-    {
-      theme: "colored",
-      type: "success",
-      position: "top-center",
-      progress: 0,
-      dangerouslyHTMLString: true,
-      closeButton: false,
-      icon: false,
-      toastStyle: {
-        backgroundColor: "#2b4246",
-        padding: "15px",
-        borderRadius: "10px",
-        fontFamily: "karla"
+  if (
+    required(contact.first_name) ||
+    required(contact.last_name) ||
+    email(contact.email_address) ||
+    queryType(contact.query_type) ||
+    required(contact.message) ||
+    checked(contact.contacted)
+  ) {
+    alert("err");
+  } else {
+    createToast(
+      `<div class="flex items-center"><img class="w-4 h-4 mr-2" src="../src/assets/images/icon-success-check.svg" alt="checked"/> <strong class="text-sm">Message Sent!</strong></div><div><small class="text-[10px] text-[#87a3a6] leading-none">Thanks for completing the form. We'll be in touch soon!</small></div>`,
+      {
+        theme: "colored",
+        type: "success",
+        position: "top-center",
+        progress: 0,
+        dangerouslyHTMLString: true,
+        closeButton: false,
+        icon: false,
+        toastStyle: {
+          backgroundColor: "#2b4246",
+          padding: "15px",
+          borderRadius: "10px",
+          fontFamily: "karla"
+        }
       }
-    }
-  );
+    );
+  }
 };
 </script>
