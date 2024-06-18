@@ -37,8 +37,8 @@
               name="QueryType"
               value="Support Request"
               v-model="contact.query_type"
-              :rules="[queryType]"
             />
+            <!-- :rules="[queryType]" -->
           </div>
         </div>
       </div>
@@ -104,7 +104,7 @@ const getClass = (queryType, targetType) => {
 const handleSubmit = () => {
   console.log(contact, "contact");
   createToast(
-    `<div class="flex items-center"><img class="w-4 h-4 mr-2" src="../src/assets/images/icon-success-check.svg" alt="checked"/> <strong class="text-sm">Message Sent!</strong></div><div><small class="text-[11px] text-[#87a3a6]">Thanks for completing the form. We'll be in touch soon!</small></div>`,
+    `<div class="flex items-center"><img class="w-4 h-4 mr-2" src="../src/assets/images/icon-success-check.svg" alt="checked"/> <strong class="text-sm">Message Sent!</strong></div><div><small class="text-[10px] text-[#87a3a6] leading-none">Thanks for completing the form. We'll be in touch soon!</small></div>`,
     {
       theme: "colored",
       type: "success",
@@ -116,7 +116,8 @@ const handleSubmit = () => {
       toastStyle: {
         backgroundColor: "#2b4246",
         padding: "15px",
-        borderRadius: "10px"
+        borderRadius: "10px",
+        fontFamily: "karla"
       }
     }
   );

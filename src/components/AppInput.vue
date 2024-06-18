@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from "vue";
+import { computed, watch, onMounted } from "vue";
 import { useValidate } from "../composables/validate";
 import AppTeleport from "./AppTeleport.vue";
 
@@ -139,4 +139,12 @@ watch(
   () => props.modelValue,
   () => validateInput(props.rules, props.modelValue)
 );
+
+onMounted(() => {
+  if (isRadioButton.value) {
+    props.modelValue !== props.value
+      ? validateInput(props.rules, props.modelValue)
+      : "";
+  }
+});
 </script>
