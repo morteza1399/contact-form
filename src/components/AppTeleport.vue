@@ -9,8 +9,7 @@
 <script setup>
 const props = defineProps({
   message: {
-    type: String,
-    required: true
+    type: String
   },
   to: {
     type: String,
