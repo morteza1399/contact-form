@@ -3,18 +3,8 @@
     <h1 class="text-2xl font-bold mx-2">Contact Us</h1>
     <form @submit.prevent="handleSubmit">
       <div class="flex lg:flex-row flex-col justify-between my-3">
-        <AppInput
-          label="First Name"
-          type="text"
-          v-model="contact.first_name"
-          :rules="[required]"
-        />
-        <AppInput
-          label="Last Name"
-          type="text"
-          v-model="contact.last_name"
-          :rules="[required]"
-        />
+        <AppInput label="First Name" type="text" v-model="contact.first_name" :rules="[required]" />
+        <AppInput label="Last Name" type="text" v-model="contact.last_name" :rules="[required]" />
       </div>
       <div class="my-3">
         <AppInput
@@ -24,7 +14,7 @@
           :rules="[required, email]"
         />
       </div>
-      <div class="my-3">
+      <div id="query" class="my-3">
         <label for="#" class="text-sm mx-2">
           Query Type
           <span class="text-[#0c7d69]">*</span>
@@ -53,13 +43,9 @@
         </div>
       </div>
       <div class="my-3">
-        <AppTextArea
-          label="Message"
-          v-model="contact.message"
-          :rules="[required]"
-        />
+        <AppTextArea label="Message" v-model="contact.message" :rules="[required]" />
       </div>
-      <div class="my-3">
+      <div id="check" class="my-3">
         <AppInput
           type="checkbox"
           label="I consent to being contacted by the
@@ -95,7 +81,7 @@ const contact = reactive({
   email_address: "",
   query_type: "",
   message: "",
-  contacted: false,
+  contacted: false
 });
 
 const baseClass = "flex items-center grow p-3 m-2 border rounded-lg";
@@ -130,8 +116,8 @@ const handleSubmit = () => {
       toastStyle: {
         backgroundColor: "#2b4246",
         padding: "15px",
-        borderRadius: "10px",
-      },
+        borderRadius: "10px"
+      }
     }
   );
 };

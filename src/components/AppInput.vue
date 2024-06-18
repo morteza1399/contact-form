@@ -2,9 +2,7 @@
   <div :class="computedParentClass">
     <label :for="computedId" :class="computedLabelClass">
       {{ label }}
-      <span v-show="isRequired && isNotRadioButton" class="text-[#0c7d69]"
-        >*</span
-      >
+      <span v-show="isRequired && isNotRadioButton" class="text-[#0c7d69]">*</span>
     </label>
     <input
       autocomplete="off"
@@ -15,22 +13,22 @@
       :value="isRequired ? (isRadioButton ? value : modelValue) : 'submit'"
       @input="updateValue($event.target.value)"
     />
-    <div>
-      <small
-        v-show="error && !props.isCheckBox"
-        class="text-[#d73c3c] text-[12px]"
-        >{{ error }}</small
-      >
+    <div v-if="isRadioButton">
+      <AppTeleport to="query" :message="error" />
     </div>
-  </div>
-  <div v-show="error && props.isCheckBox" class="ml-2 text-[#d73c3c] text-base">
-    <small>{{ error }}</small>
+    <div v-else-if="isCheckBox">
+      <AppTeleport to="check" :message="error" />
+    </div>
+    <div v-else>
+      <small v-show="error" class="text-[#d73c3c] text-[12px]">{{ error }}</small>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { computed, watch } from "vue";
 import { useValidate } from "../composables/validate";
+import AppTeleport from "./AppTeleport.vue";
 
 const { error, validateInput } = useValidate();
 
@@ -38,19 +36,19 @@ const props = defineProps({
   label: String,
   type: {
     type: String,
-    required: true,
+    required: true
   },
   isCheckBox: {
     type: Boolean,
-    default: false,
+    default: false
   },
   modelValue: [String, Boolean],
   value: [String, Boolean],
   name: String,
   rules: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 });
 
 const emits = defineEmits(["update:modelValue"]);
@@ -132,7 +130,7 @@ const computedId = computed(() => {
     : `${props.label}`;
 });
 
-const updateValue = (value) => {
+const updateValue = value => {
   emits("update:modelValue", props.isCheckBox ? !props.modelValue : value);
   validateInput(props.rules, props.modelValue);
 };
