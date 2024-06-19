@@ -84,9 +84,9 @@ const contact = reactive({
   contacted: false
 });
 
-const baseClass = "flex items-center grow p-3 m-2 border rounded-lg";
-const activeClass = "bg-[#dff1e7] border-[#0c7d69]";
-const inactiveClass = "bg-white border-[#87a3a6]";
+const BASE_CLASS = "flex items-center grow p-3 m-2 border rounded-lg";
+const ACTIVE_CLASS = "bg-[#dff1e7] border-[#0c7d69]";
+const INACTIVE_CLASS = "bg-white border-[#87a3a6]";
 
 const generalEnquiryClass = computed(() =>
   getClass(contact.query_type, "General Enquiry")
@@ -96,8 +96,8 @@ const supportRequestClass = computed(() =>
 );
 
 const getClass = (queryType, targetType) => {
-  return `${baseClass} ${
-    queryType === targetType ? activeClass : inactiveClass
+  return `${BASE_CLASS} ${
+    queryType === targetType ? ACTIVE_CLASS : INACTIVE_CLASS
   }`;
 };
 
