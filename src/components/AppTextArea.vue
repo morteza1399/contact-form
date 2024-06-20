@@ -13,15 +13,15 @@
       :value="modelValue"
       @input="updateValue($event.target.value)"
     ></textarea>
-    <small v-if="error" class="text-[#d73c3c] text[12px]">{{ error }}</small>
+    <small v-if="computedError" class="text-[#d73c3c] text[12px]">{{
+      computedError
+    }}</small>
   </div>
 </template>
 
 <script setup>
 import { computed, watch } from "vue";
 import { useValidate } from "../composables/validate";
-
-const { error, validateInput } = useValidate();
 
 const props = defineProps({
   modelValue: String,
@@ -36,25 +36,35 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  externalError: String,
 });
+
+const { error, validateInput } = useValidate();
 
 const computedTextAreaClasses = computed(() => {
   return `p-3 my-2 border rounded-lg resize-none focus:outline-none focus:border-[#0c7d69] hover:border-[#0c7d69] ${
-    error.value
+    computedError.value
       ? "border-[#d73c3c] focus:border-[#d73c3c] hover:border-[#d73c3c]"
       : "border-[#87a3a6]"
   }`;
 });
 
-const emits = defineEmits(["update:modelValue"]);
+const computedError = computed(() => {
+  return props.externalError || error.value;
+});
+
+const emits = defineEmits(["update:modelValue", "update:externalError"]);
 
 const updateValue = (value) => {
   emits("update:modelValue", value);
-  validateInput(props.rules, props.modelValue);
+  validateInput(props.rules, value);
 };
 
 watch(
   () => props.modelValue,
-  () => validateInput(props.rules, props.modelValue)
+  (newVal) => {
+    validateInput(props.rules, newVal);
+    emits("update:externalError", error.value);
+  }
 );
 </script>

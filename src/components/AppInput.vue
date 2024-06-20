@@ -2,7 +2,9 @@
   <div :class="computedParentClass">
     <label :for="computedId" :class="computedLabelClass">
       {{ label }}
-      <span v-show="isRequired && isNotRadioButton" class="text-[#0c7d69]">*</span>
+      <span v-show="isRequired && isNotRadioButton" class="text-[#0c7d69]"
+        >*</span
+      >
     </label>
     <input
       autocomplete="off"
@@ -14,44 +16,47 @@
       @input="updateValue($event.target.value)"
     />
     <div v-if="isRadioButton">
-      <AppTeleport to="query" :message="error" />
+      <AppTeleport to="query" :message="computedError" />
     </div>
     <div v-else-if="isCheckBox">
-      <AppTeleport to="check" :message="error" />
+      <AppTeleport to="check" :message="computedError" />
     </div>
     <div v-else>
-      <small v-show="error" class="text-[#d73c3c] text-[12px]">{{ error }}</small>
+      <small v-show="computedError" class="text-[#d73c3c] text-[12px]">{{
+        computedError
+      }}</small>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, watch, onMounted } from "vue";
+import { computed, watch } from "vue";
 import { useValidate } from "../composables/validate";
 import AppTeleport from "./AppTeleport.vue";
-
-const { error, validateInput } = useValidate();
 
 const props = defineProps({
   label: String,
   type: {
     type: String,
-    required: true
+    required: true,
   },
   isCheckBox: {
     type: Boolean,
-    default: false
+    default: false,
   },
   modelValue: [String, Boolean],
   value: [String, Boolean],
   name: String,
   rules: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
+  externalError: String,
 });
 
-const emits = defineEmits(["update:modelValue"]);
+const { error, validateInput } = useValidate();
+
+const emits = defineEmits(["update:modelValue", "update:externalError"]);
 
 const isRequired = computed(() => {
   return props.type !== "submit";
@@ -105,7 +110,7 @@ const computedInputClass = computed(() => {
     }`;
   }
 
-  if (error.value && !props.isCheckBox) {
+  if (computedError.value && !props.isCheckBox) {
     classes += ` ${ERROR_CLASSES}`;
   } else {
     classes += " border-[#87a3a6]";
@@ -130,21 +135,20 @@ const computedId = computed(() => {
     : `${props.label}`;
 });
 
-const updateValue = value => {
+const computedError = computed(() => {
+  return props.externalError || error.value;
+});
+
+const updateValue = (value) => {
   emits("update:modelValue", props.isCheckBox ? !props.modelValue : value);
-  validateInput(props.rules, props.modelValue);
+  validateInput(props.rules, value);
 };
 
 watch(
   () => props.modelValue,
-  () => validateInput(props.rules, props.modelValue)
-);
-
-onMounted(() => {
-  if (isRadioButton.value) {
-    props.modelValue !== props.value
-      ? validateInput(props.rules, props.modelValue)
-      : "";
+  (newVal) => {
+    validateInput(props.rules, newVal);
+    emits("update:externalError", error.value);
   }
-});
+);
 </script>

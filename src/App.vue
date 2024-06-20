@@ -3,8 +3,22 @@
     <h1 class="text-2xl font-bold mx-2">Contact Us</h1>
     <form @submit.prevent="handleSubmit">
       <div class="flex lg:flex-row flex-col justify-between my-3">
-        <AppInput label="First Name" type="text" v-model="contact.first_name" :rules="[required]" />
-        <AppInput label="Last Name" type="text" v-model="contact.last_name" :rules="[required]" />
+        <AppInput
+          label="First Name"
+          type="text"
+          v-model="contact.first_name"
+          :rules="[required]"
+          :externalError="errors.first_name"
+          @update:externalError="errors.first_name = $event"
+        />
+        <AppInput
+          label="Last Name"
+          type="text"
+          v-model="contact.last_name"
+          :rules="[required]"
+          :externalError="errors.last_name"
+          @update:externalError="errors.last_name = $event"
+        />
       </div>
       <div class="my-3">
         <AppInput
@@ -12,6 +26,8 @@
           type="email"
           v-model="contact.email_address"
           :rules="[required, email]"
+          :externalError="errors.email_address"
+          @update:externalError="errors.email_address = $event"
         />
       </div>
       <div id="query" class="my-3">
@@ -28,6 +44,8 @@
               value="General Enquiry"
               v-model="contact.query_type"
               :rules="[queryType]"
+              :externalError="errors.query_type"
+              @update:externalError="errors.query_type = $event"
             />
           </div>
           <div :class="supportRequestClass">
@@ -38,12 +56,17 @@
               value="Support Request"
               v-model="contact.query_type"
             />
-            <!-- :rules="[queryType]" -->
           </div>
         </div>
       </div>
       <div class="my-3">
-        <AppTextArea label="Message" v-model="contact.message" :rules="[required]" />
+        <AppTextArea
+          label="Message"
+          v-model="contact.message"
+          :rules="[required]"
+          :externalError="errors.message"
+          @update:externalError="errors.message = $event"
+        />
       </div>
       <div id="check" class="my-3">
         <AppInput
@@ -53,16 +76,13 @@
           is-check-box
           v-model="contact.contacted"
           :rules="[checked]"
+          :externalError="errors.contacted"
+          @update:externalError="errors.contacted = $event"
         />
       </div>
       <AppInput type="submit" />
     </form>
   </div>
-  <!-- <div class="attribution">
-    Challenge by
-    <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
-    Coded by <a href="#">Morteza Abdollahi</a>.
-  </div>-->
 </template>
 
 <script setup>
@@ -72,7 +92,7 @@ import AppTextArea from "./components/AppTextArea.vue";
 import { useToast } from "./composables/toast";
 import { useValidate } from "./composables/validate";
 
-const { required, email, queryType, checked } = useValidate();
+const { required, email, queryType, checked, validateInput } = useValidate();
 const { createToast } = useToast();
 
 const contact = reactive({
@@ -81,7 +101,16 @@ const contact = reactive({
   email_address: "",
   query_type: "",
   message: "",
-  contacted: false
+  contacted: false,
+});
+
+const errors = reactive({
+  first_name: "",
+  last_name: "",
+  email_address: "",
+  query_type: "",
+  message: "",
+  contacted: "",
 });
 
 const BASE_CLASS = "flex items-center grow p-3 m-2 border rounded-lg";
@@ -102,16 +131,15 @@ const getClass = (queryType, targetType) => {
 };
 
 const handleSubmit = () => {
-  if (
-    required(contact.first_name) ||
-    required(contact.last_name) ||
-    email(contact.email_address) ||
-    queryType(contact.query_type) ||
-    required(contact.message) ||
-    checked(contact.contacted)
-  ) {
-    alert("err");
-  } else {
+  let isValid = true;
+  if (!validateInput([required], contact.first_name)) isValid = false;
+  if (!validateInput([required], contact.last_name)) isValid = false;
+  if (!validateInput([required, email], contact.email_address)) isValid = false;
+  if (!validateInput([queryType], contact.query_type)) isValid = false;
+  if (!validateInput([required], contact.message)) isValid = false;
+  if (!validateInput([checked], contact.contacted)) isValid = false;
+
+  if (isValid) {
     createToast(
       `<div class="flex items-center"><img class="w-4 h-4 mr-2" src="../src/assets/images/icon-success-check.svg" alt="checked"/> <strong class="text-sm">Message Sent!</strong></div><div><small class="text-[10px] text-[#87a3a6] leading-none">Thanks for completing the form. We'll be in touch soon!</small></div>`,
       {
@@ -126,10 +154,18 @@ const handleSubmit = () => {
           backgroundColor: "#2b4246",
           padding: "15px",
           borderRadius: "10px",
-          fontFamily: "karla"
-        }
+          fontFamily: "karla",
+        },
       }
     );
+  } else {
+    errors.first_name = required(contact.first_name);
+    errors.last_name = required(contact.last_name);
+    errors.email_address =
+      required(contact.email_address) || email(contact.email_address);
+    errors.query_type = queryType(contact.query_type);
+    errors.message = required(contact.message);
+    errors.contacted = checked(contact.contacted);
   }
 };
 </script>
